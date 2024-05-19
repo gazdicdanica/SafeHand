@@ -9,6 +9,8 @@ client = MongoClient("mongodb://mongodb:27017/")
 db = client.mydatabase
 
 
+
+
 @app.route('/register', methods=['POST'])
 def register():
     data = request.json

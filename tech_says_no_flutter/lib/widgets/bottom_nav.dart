@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:tech_says_no/shared_prefs.dart';
 import 'package:tech_says_no/widgets/add_contact.dart';
 import 'package:tech_says_no/widgets/home.dart';
+import 'package:tech_says_no/widgets/login.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key});
@@ -20,6 +22,23 @@ class _BottomNavState extends State<BottomNav> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('SafeHand'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () {
+              SharedPreferencesService.instance.clear();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const LoginScreen(),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
       body: IndexedStack(
         index: _selectedIndex,
         children: _widgetOptions,

@@ -30,4 +30,9 @@ class SharedPreferencesService {
     return prefs.getString(key);
   }
 
+  Future<void> clear() async {
+    final prefs = await _prefs;
+    await prefs.clear();
+  }
+
 }
