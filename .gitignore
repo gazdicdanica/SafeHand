@@ -130,3 +130,5 @@ lib/generated_plugin_registrant.dart
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,flutter
+
+./techsaysno-firebase-adminsdk-tnj21-d26f5188f5.json
