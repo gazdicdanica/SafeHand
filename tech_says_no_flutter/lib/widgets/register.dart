@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tech_says_no/widgets/login.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -17,17 +18,29 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Register'),
-      ),
       body: Padding(
         padding:const  EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              const Text(
+                'Register',
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 20),
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Full Name'),
+                decoration: InputDecoration(
+                  labelText: 'Full name',
+                  hintText: 'Enter your full name',
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(50)),
+                  floatingLabelBehavior: FloatingLabelBehavior.always,
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your full name';
@@ -38,8 +51,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   _fullName = value!;
                 },
               ),
+               const SizedBox(height: 20),
+
               TextFormField(
-                decoration: const  InputDecoration(labelText: 'Email'),
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  hintText: 'Enter your email',
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(50)),
+                  floatingLabelBehavior: FloatingLabelBehavior.always,
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your email';
@@ -50,8 +71,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   _email = value!;
                 },
               ),
+               const SizedBox(height: 20),
+
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Password'),
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  hintText: 'Enter your password',
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(50)),
+                  floatingLabelBehavior: FloatingLabelBehavior.always,
+                ),
                 obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -63,8 +92,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   _password = value!;
                 },
               ),
+               const SizedBox(height: 20),
+
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Phone Number'),
+                decoration: InputDecoration(
+                  labelText: 'Phone number',
+                  hintText: 'Enter your phone number',
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(50)),
+                  floatingLabelBehavior: FloatingLabelBehavior.always,
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your phone number';
@@ -75,16 +112,37 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   _phoneNumber = value!;
                 },
               ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
-                    // Perform registration action with _fullName, _email, _password, and _phoneNumber
-                  }
-                },
-                child: const Text('Register'),
+               const SizedBox(height: 20),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
+                      // Perform login action with _email and _password
+                    }
+                  },
+                  style: ButtonStyle(
+                    padding: MaterialStateProperty.all(
+                        const EdgeInsets.symmetric(vertical: 15)),
+                    elevation: MaterialStateProperty.all(5),
+                  ),
+                  child: const Text('Register', style: TextStyle(fontSize: 18),),
+                ),
               ),
+              const SizedBox(height: 20),
+              TextButton(
+                onPressed: () {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const LoginScreen()),
+                    (route) => false,
+                  );
+                },
+                child: const Text('Already have an account? Login here'),
+              ),
+              
             ],
           ),
         ),
