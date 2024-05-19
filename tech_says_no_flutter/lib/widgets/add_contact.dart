@@ -1,21 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tech_says_no/model/contact.dart';
 import 'package:tech_says_no/widgets/contact.dart';
+import 'package:tech_says_no/provider/contact_provider.dart';
 
-class AddContact extends StatefulWidget {
+class AddContact extends ConsumerStatefulWidget {
   const AddContact({super.key});
 
-
   @override
-  State<AddContact> createState() => _AddContactState();
+  ConsumerState<AddContact> createState() => _AddContactState();
 }
 
-class _AddContactState extends State<AddContact> {
+class _AddContactState extends ConsumerState<AddContact> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
 
-  List<Contact> contacts = List<Contact>.empty(growable: true);
+  late Future<void> _contactsFuture;
+  // List<Contact> contacts = List<Contact>.empty(growable: true);
 
+  @override
+  void initState() {
+    super.initState();
+    _contactsFuture = ref.read(contactsProvider.notifier).fetchContacts();
+  }
 
   void _showAddContactModal() {
     showModalBottomSheet(
@@ -27,7 +34,10 @@ class _AddContactState extends State<AddContact> {
         return SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).viewInsets.bottom, left: 20, right: 20, top: 20),
+                bottom: MediaQuery.of(context).viewInsets.bottom,
+                left: 20,
+                right: 20,
+                top: 20),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -62,7 +72,8 @@ class _AddContactState extends State<AddContact> {
                       final String phone = _phoneController.text;
                       if (name.isNotEmpty && phone.isNotEmpty) {
                         setState(() {
-                          contacts.add(Contact(name: name, phoneNumber: phone));
+                          ref.read(contactsProvider.notifier).addContact(
+                              Contact(name: name, phoneNumber: phone));
                         });
                         _nameController.clear();
                         _phoneController.clear();
@@ -91,6 +102,7 @@ class _AddContactState extends State<AddContact> {
 
   @override
   Widget build(BuildContext context) {
+    final contacts = ref.watch(contactsProvider);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: _showAddContactModal,
@@ -112,22 +124,27 @@ class _AddContactState extends State<AddContact> {
                 ),
               ),
               const SizedBox(height: 20),
-              if (contacts.isNotEmpty)
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: contacts.length,
-                    itemBuilder: (context, index) {
-                      final contact = contacts[index];
-                      return ContactWidget(
-                        contact: contact,
+              Expanded(
+                child: FutureBuilder(
+                    future: _contactsFuture,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      if(contacts.isEmpty){
+                        return const Center(child: Text('No contacts added yet!'));
+
+                      }
+                      return ListView.builder(
+                        itemCount: contacts.length,
+                        itemBuilder: (context, index) {
+                          return ContactWidget(contact: contacts[index]);
+                        },
                       );
-                    },
-                  ),
-                ),
-              if (contacts.isEmpty)
-                const Center(
-                  child: Text('No contacts added yet'),
-                ),
+                    }),
+              ),
             ],
           ),
         ),
