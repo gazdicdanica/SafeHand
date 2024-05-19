@@ -19,7 +19,7 @@ def register():
     data['password'] = hashed_password
     data['contacts'] = []
     db.users.insert_one(data)
-    return jsonify({"message": "User registered successfully"}), 201
+    return jsonify({"message": "User registered successfully"}), 200
 
 
 @app.route('/login', methods=['POST'])
@@ -35,7 +35,7 @@ def login():
 @app.route('/add_contact', methods=['POST'])
 def add_contact():
     data = request.json
-    user = db.users.find_one({'phone': data['phone']})
+    user = db.users.find_one({'email': data['email']})
     if user is None:
         return jsonify({"message": "User not found"}), 404
 
@@ -53,8 +53,8 @@ def add_contact():
 @app.route('/get_contacts', methods=['POST'])
 def get_contacts():
     data = request.json
-    phone = data['phone']
-    user = db.users.find_one({'phone': phone})
+    email = data['email']
+    user = db.users.find_one({'email': email})
     if user is None:
         return jsonify({"message": "User not found"}), 404
     return jsonify(user['contacts']), 200

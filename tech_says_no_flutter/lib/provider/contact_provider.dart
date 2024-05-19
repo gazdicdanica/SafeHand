@@ -36,6 +36,12 @@ class ContactNotifier extends StateNotifier<List<Contact>> {
     state = [...state, contact];
   }
 
+  void deleteContact(String id) async{
+    final db = await _getDB();
+    db.delete('contacts', where: 'id = ?', whereArgs: [id]);
+    state = state.where((element) => element.id != id).toList();
+  }
+
 }
 
 final contactsProvider = StateNotifierProvider<ContactNotifier, List<Contact>>((ref) => ContactNotifier());
