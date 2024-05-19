@@ -3,10 +3,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tech_says_no/api/firebase_api.dart';
 import 'package:tech_says_no/shared_prefs.dart';
-import 'package:tech_says_no/widgets/add_contact.dart';
-// import 'package:tech_says_no/widgets/add_contact.dart';
+import 'package:tech_says_no/widgets/bottom_nav.dart';
 import 'package:tech_says_no/widgets/login.dart';
+import 'package:tech_says_no/widgets/map.dart';
 import 'firebase_options.dart';
+
+final navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,7 +17,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await FirebaseApi().init();
-  runApp(const ProviderScope(child:  MyApp()));
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -25,9 +27,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       title: 'SafetyBuddy',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 255, 159, 245)),
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color.fromARGB(255, 255, 159, 245)),
         useMaterial3: true,
       ),
       home: FutureBuilder<String?>(
@@ -35,7 +39,9 @@ class MyApp extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             // Show splash screen while waiting for future
-            return const Center(child: CircularProgressIndicator(),);
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           } else if (snapshot.hasError) {
             return Scaffold(
               body: Center(
@@ -45,10 +51,13 @@ class MyApp extends StatelessWidget {
           } else {
             // Show AddContact or LoginScreen based on shared preference
             final email = snapshot.data;
-            return email != null ? const AddContact() : const LoginScreen();
+            return email != null ? const BottomNav() : const LoginScreen();
           }
         },
-    ),);
+      ),
+      routes: {
+        MapScreen.route: (context) => const MapScreen(),
+      },
+    );
   }
 }
-
