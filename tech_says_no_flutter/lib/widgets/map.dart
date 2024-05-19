@@ -24,6 +24,14 @@ class _MapScreenState extends State<MapScreen> {
       address: message.data['address']!,
     );
     return Scaffold(
+      appBar: AppBar(
+        // actions: [
+        //   IconButton(
+        //     icon: const Icon(Icons.close),
+        //     onPressed: () => Navigator.of(context).pop(),
+        //   ),
+        // ],
+      ),
       body: GoogleMap(
         mapType: MapType.hybrid,
         initialCameraPosition: CameraPosition(
