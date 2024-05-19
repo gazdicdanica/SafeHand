@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tech_says_no/api/firebase_api.dart';
 import 'package:tech_says_no/widgets/add_contact.dart';
 import 'package:tech_says_no/widgets/login.dart';
@@ -11,7 +12,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await FirebaseApi().init();
-  runApp(const MyApp());
+  runApp(const ProviderScope(child:  MyApp()));
 }
 
 class MyApp extends StatelessWidget {
