@@ -3,8 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tech_says_no/api/firebase_api.dart';
 import 'package:tech_says_no/shared_prefs.dart';
-import 'package:tech_says_no/widgets/add_contact.dart';
-// import 'package:tech_says_no/widgets/add_contact.dart';
+import 'package:tech_says_no/widgets/bottom_nav.dart';
 import 'package:tech_says_no/widgets/login.dart';
 import 'package:tech_says_no/widgets/map.dart';
 import 'firebase_options.dart';
@@ -52,7 +51,7 @@ class MyApp extends StatelessWidget {
           } else {
             // Show AddContact or LoginScreen based on shared preference
             final email = snapshot.data;
-            return email != null ? const AddContact() : const LoginScreen();
+            return email != null ? const BottomNav() : const LoginScreen();
           }
         },
       ),
