@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "567933219635",
+    "project_id": "techsaysno",
+    "storage_bucket": "techsaysno.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:567933219635:android:d024397205f06a67ba0446",
+        "android_client_info": {
+          "package_name": "com.example.tech_says_no"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCk6Pxk8ZAAc3IMnqmy9Q6cHbKm2m7uYVQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
