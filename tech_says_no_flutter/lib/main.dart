@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:tech_says_no/api/firebase_api.dart';
+import 'package:tech_says_no/widgets/add_contact.dart';
 import 'package:tech_says_no/widgets/login.dart';
 import 'firebase_options.dart';
 
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 255, 159, 245)),
         useMaterial3: true,
       ),
-      home: const LoginScreen()
+      home: const AddContact()
     );
   }
 }
