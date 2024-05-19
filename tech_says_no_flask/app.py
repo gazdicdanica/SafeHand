@@ -17,6 +17,7 @@ def register():
         return jsonify({"message": "Email or phone number already in use"}), 400
     hashed_password = bcrypt.generate_password_hash(data['password']).decode('utf-8')
     data['password'] = hashed_password
+    data['contacts'] = []
     db.users.insert_one(data)
     return jsonify({"message": "User registered successfully"}), 201
 
@@ -29,6 +30,34 @@ def login():
         return jsonify({"message": "Login successful"}), 200
     else:
         return jsonify({"message": "Invalid email or password"}), 401
+
+
+@app.route('/add_contact', methods=['POST'])
+def add_contact():
+    data = request.json
+    user = db.users.find_one({'phone': data['phone']})
+    if user is None:
+        return jsonify({"message": "User not found"}), 404
+
+    for contact in user['contacts']:
+        if contact['phone'] == data['contact_phone']:
+            contact['name'] = data['contact_name']
+            db.users.update_one({'phone': data['phone']}, {'$set': {'contacts': user['contacts']}})
+            return jsonify({"message": "Contact updated successfully"}), 200
+
+    new_contact = {'name': data['contact_name'], 'phone': data['contact_phone']}
+    db.users.update_one({'phone': data['phone']}, {'$push': {'contacts': new_contact}})
+    return jsonify({"message": "Contact added successfully"}), 200
+
+
+@app.route('/get_contacts', methods=['POST'])
+def get_contacts():
+    data = request.json
+    phone = data['phone']
+    user = db.users.find_one({'phone': phone})
+    if user is None:
+        return jsonify({"message": "User not found"}), 404
+    return jsonify(user['contacts']), 200
 
 
 if __name__ == '__main__':
