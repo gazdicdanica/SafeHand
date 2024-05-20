@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tech_says_no/widgets/add_contact.dart';
 import 'package:tech_says_no/widgets/home.dart';
+import 'package:tech_says_no/widgets/support.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key});
@@ -14,6 +15,7 @@ class _BottomNavState extends State<BottomNav> {
 
   final List<Widget> _widgetOptions = <Widget>[
     const HomeScreen(),
+    const Support(),
     const AddContact(),
   ];
 
@@ -28,16 +30,17 @@ class _BottomNavState extends State<BottomNav> {
         selectedIndex: _selectedIndex,
         onDestinationSelected: _onItemTap,
         destinations: const [
-           NavigationDestination(
+          NavigationDestination(
               icon: Icon(
-               Icons.home,
+                Icons.home,
               ),
               label: "Home"),
           NavigationDestination(
-              icon: Icon(
-                Icons.contact_emergency
-              ),
-              label:"Contacts"),
+            icon: Icon(Icons.handshake),
+            label: "Support",
+          ),
+          NavigationDestination(
+              icon: Icon(Icons.contact_emergency), label: "Contacts"),
         ],
       ),
     );
