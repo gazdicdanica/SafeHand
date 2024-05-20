@@ -3,6 +3,7 @@ from flask import Flask, jsonify, request
 from pymongo import MongoClient
 import firebase_admin
 from firebase_admin import credentials, messaging
+import lama
 
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
@@ -112,6 +113,35 @@ def get_contacts():
     if user is None:
         return jsonify({"message": "User not found"}), 404
     return jsonify(user['contacts']), 200
+
+
+@app.route('/get_response', methods=['POST'])
+def get_lama_response():
+    if request.is_json:
+        try:
+            user_data = request.json
+            question = user_data.get("question")
+            generalization_coefficient = None
+            fromLlama = None
+
+            if user_data.get("generalization_coefficient"):
+                generalization_coefficient = user_data.get("generalization_coefficient")
+                fromLlama = lama.answer_question(question, generalization_coefficient)
+            else:
+                fromLlama = lama.answer_question(question)
+
+            flag, fromLlama = lama.get_content(fromLlama)
+
+            return jsonify({
+                "correct_json": flag,
+                "answer": fromLlama, 
+                }), 200
+        
+
+        except Exception as e:
+            return jsonify({"error": str(e)}), 400
+    else:
+        return jsonify({"error": "Request body must be JSON"}), 400
 
 
 if __name__ == '__main__':
