@@ -25,6 +25,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: null,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -185,7 +186,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       });
       String token = await SharedPreferencesService.instance.getString('fcmToken') ?? '';
       final response = await http.post(
-        Uri.parse('http://192.168.0.19:5000/register'),
+        Uri.parse('http://192.168.0.36:5000/register'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },

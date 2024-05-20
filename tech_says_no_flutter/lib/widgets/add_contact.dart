@@ -104,6 +104,7 @@ class _AddContactState extends ConsumerState<AddContact> {
   Widget build(BuildContext context) {
     final contacts = ref.watch(contactsProvider);
     return Scaffold(
+      appBar: null,
       floatingActionButton: FloatingActionButton(
         onPressed: _showAddContactModal,
         child: const Icon(Icons.add),

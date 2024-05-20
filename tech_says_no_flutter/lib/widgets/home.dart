@@ -6,6 +6,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: null,
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[
@@ -15,27 +16,14 @@ class HomeScreen extends StatelessWidget {
             fit: BoxFit.cover,
           ),
           // Overlay with gradient
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.black.withOpacity(0.5),
-                  Colors.black.withOpacity(0.8),
-                ],
-              ),
-            ),
-          ),
-          // Content
           Padding(
             padding: EdgeInsets.all(32.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                // App title
+                // App titlegit
                 Text(
-                  'SOS Jewelry',
+                  'SafeHand',
                   style: TextStyle(
                     fontSize: 36.0,
                     fontWeight: FontWeight.bold,
@@ -44,10 +32,10 @@ class HomeScreen extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 200),
                 // Description
                 Text(
-                  'In case of an emergency, your emergency contacts will be notified with your location.',
+                  'Press the button in times of need. Your safety is our priority.',
                   style: TextStyle(
                     fontSize: 18.0,
                     color: Colors.white,
@@ -56,20 +44,6 @@ class HomeScreen extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 40),
-                // Buttons
-                ElevatedButton(
-                  onPressed: () {
-                    // Navigate to add contact page
-                  },
-                  child: Text(
-                    'Add Emergency Contact',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontFamily: 'Montserrat', // Use a custom font
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
                     // Navigate to send SOS page
