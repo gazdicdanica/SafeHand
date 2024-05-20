@@ -9,6 +9,8 @@ Before running this application, ensure you have the following installed:
  - RaspberryPI and a button
  - CallMeBot (it requires number registration since we are in developing environment)
 
+<img src="https://github.com/Obradowski1389/tech_says_no/blob/master/documentation/callmebot.jpg" alt="callmebot" height="500"/>
+
 ## Setup
 ### Flutter Setup:
 - Clone this repository.
