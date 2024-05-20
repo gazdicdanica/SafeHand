@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:tech_says_no/shared_prefs.dart';
-import 'package:tech_says_no/widgets/add_contact.dart';
+import 'package:tech_says_no/widgets/bottom_nav.dart';
 import 'package:tech_says_no/widgets/login.dart';
 import 'package:http/http.dart' as http;
 
@@ -15,7 +15,7 @@ class RegistrationScreen extends StatefulWidget {
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
   final _formKey = GlobalKey<FormState>();
-  // String _fullName = '';
+  String _fullName = '';
   String _email = '';
   String _password = '';
   String _phoneNumber = '';
@@ -35,32 +35,39 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    const Text(
+                    Image.asset(
+                      'assets/logo.png', 
+                      width: 150,
+                      height: 150,
+                    ),
+                    const SizedBox(height: 10), 
+                    Text(
                       'Register',
                       style: TextStyle(
                         fontSize: 30,
+                        color: Theme.of(context).primaryColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(height: 20),
-                    // TextFormField(
-                    //   decoration: InputDecoration(
-                    //     labelText: 'Full name',
-                    //     hintText: 'Enter your full name',
-                    //     border: OutlineInputBorder(
-                    //         borderRadius: BorderRadius.circular(50)),
-                    //     floatingLabelBehavior: FloatingLabelBehavior.always,
-                    //   ),
-                    //   validator: (value) {
-                    //     if (value == null || value.isEmpty) {
-                    //       return 'Please enter your full name';
-                    //     }
-                    //     return null;
-                    //   },
-                    //   onSaved: (value) {
-                    //     _fullName = value!;
-                    //   },
-                    // ),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Full name',
+                        hintText: 'Enter your full name',
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(50)),
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your full name';
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        _fullName = value!;
+                      },
+                    ),
                     if (error != null)
                       Text(error!,
                           style:
@@ -68,6 +75,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     const SizedBox(height: 20),
 
                     TextFormField(
+                      keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                         labelText: 'Email',
                         hintText: 'Enter your email',
@@ -134,7 +142,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
-                            // Perform login action with _email and _password
                             _register();
                           }
                         },
@@ -176,6 +183,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       setState(() {
         error = null;
       });
+      String token = await SharedPreferencesService.instance.getString('fcmToken') ?? '';
       final response = await http.post(
         Uri.parse('http://192.168.0.19:5000/register'),
         headers: <String, String>{
@@ -184,8 +192,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         body: jsonEncode({
           'email': _email,
           'password': _password,
-          // 'full_name': _fullName,
+          'name': _fullName,
           'phone': _phoneNumber,
+          'fcmToken': token
         }),
       );
 
@@ -195,15 +204,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Registration successful'), backgroundColor: Colors.green,),
         );
-        // Show success message
+        
         Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => const AddContact()),
+          MaterialPageRoute(builder: (context) => const BottomNav()),
           (route) => false,
         );
       } else if (response.statusCode == 400) {
-        // Show error message
-
         setState(() {
           error = json.decode(response.body)['message'];
         });

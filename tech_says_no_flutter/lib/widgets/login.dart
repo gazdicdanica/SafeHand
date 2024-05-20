@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:tech_says_no/shared_prefs.dart';
-import 'package:tech_says_no/widgets/add_contact.dart';
+import 'package:tech_says_no/widgets/bottom_nav.dart';
 import 'package:tech_says_no/widgets/register.dart';
 import 'package:http/http.dart' as http;
 
@@ -34,10 +34,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    const Text(
+                    Image.asset(
+                      'assets/logo.png', 
+                      width: 150,
+                      height: 150,
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
                       'Login',
                       style: TextStyle(
                         fontSize: 30,
+                        color: Theme.of(context).primaryColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -47,6 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           style: const TextStyle(color: Colors.red, fontSize: 16)),
                     const SizedBox(height: 20),
                     TextFormField(
+                      keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                         labelText: 'Email',
                         hintText: 'Enter your email',
@@ -91,7 +99,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
-                            // Perform login action with _email and _password
                             _login();
                           }
                         },
@@ -147,16 +154,13 @@ class _LoginScreenState extends State<LoginScreen> {
       if (!mounted) return;
 
       if (response.statusCode == 200) {
-        // Perform login action
         await SharedPreferencesService.instance.setString('email', _email);
         Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => const AddContact()),
+          MaterialPageRoute(builder: (context) => const BottomNav()),
           (route) => false,
         );
-        // print(response.body);
       } else if (response.statusCode == 401) {
-        // Show error message
         setState(() {
           emailError = json.decode(response.body)['message'];
         });

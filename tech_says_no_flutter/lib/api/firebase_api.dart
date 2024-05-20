@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:tech_says_no/main.dart';
+import 'package:tech_says_no/shared_prefs.dart';
 import 'package:tech_says_no/widgets/map.dart';
 
 Future<void> handleBackgroundMessage(RemoteMessage? message) async {
@@ -91,7 +92,7 @@ class FirebaseApi {
     await _firebaseMessaging.requestPermission();
     final token = await _firebaseMessaging.getToken();
 
-    print('Token: $token');
+    SharedPreferencesService.instance.setString('fcmToken', token!);
 
     initPushNotifications();
 
