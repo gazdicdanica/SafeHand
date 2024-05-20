@@ -26,6 +26,7 @@ class ContactNotifier extends StateNotifier<List<Contact>> {
   }
 
   Future<void> fetchContacts() async {
+    // local db
     final db = await _getDB();
     final data = await db.query('contacts');
     state = data
@@ -34,6 +35,28 @@ class ContactNotifier extends StateNotifier<List<Contact>> {
             phoneNumber: e['phoneNumber'] as String,
             id: e['id'] as String))
         .toList();
+
+    //global db
+    // final response = await http.post(
+    //   Uri.parse('http://192.168.0.19:5000/get_contacts'),
+    //   headers: <String, String>{
+    //     'Content-Type': 'application/json; charset=UTF-8',
+    //   },
+    //   body: jsonEncode({
+    //     'email':
+    //         await SharedPreferencesService.instance.getString('email') ?? '',
+    //   }),
+    // );
+
+    // if(response.statusCode == 200) {
+    //   final data = jsonDecode(response.body);
+    //   state = data
+    //       .map((e) => Contact(
+    //           name: e['name'] as String,
+    //           phoneNumber: e['phone'] as String,))
+    //       .toList();
+    // }
+    
   }
 
   void addContact(Contact contact) async {

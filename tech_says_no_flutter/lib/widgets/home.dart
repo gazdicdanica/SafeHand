@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:tech_says_no/shared_prefs.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -17,12 +21,12 @@ class HomeScreen extends StatelessWidget {
           ),
           // Overlay with gradient
           Padding(
-            padding: EdgeInsets.all(32.0),
+            padding: const EdgeInsets.all(32.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 // App titlegit
-                Text(
+                const Text(
                   'SafeHand',
                   style: TextStyle(
                     fontSize: 36.0,
@@ -32,9 +36,9 @@ class HomeScreen extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 200),
+                const SizedBox(height: 200),
                 // Description
-                Text(
+                const Text(
                   'Press the button in times of need. Your safety is our priority.',
                   style: TextStyle(
                     fontSize: 18.0,
@@ -43,12 +47,12 @@ class HomeScreen extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
                 ElevatedButton(
                   onPressed: () {
-                    // Navigate to send SOS page
+                    alert();
                   },
-                  child: Text(
+                  child: const Text(
                     'Send SOS Alert',
                     style: TextStyle(
                       fontSize: 16.0,
@@ -62,6 +66,18 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
     );
-  
+  }
+
+  void alert() async {
+    await http.post(
+      Uri.parse('http://192.168.0.19:5000/alert'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode({
+        'email':
+            await SharedPreferencesService.instance.getString('email') ?? '',
+      }),
+    );
   }
 }
