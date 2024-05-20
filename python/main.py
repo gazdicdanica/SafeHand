@@ -1,7 +1,7 @@
 import time, requests
 import RPi.GPIO as GPIO
 
-GPIO_PIN = 2
+GPIO_PIN = 17
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(GPIO_PIN, GPIO.IN, GPIO.PUD_OFF)
