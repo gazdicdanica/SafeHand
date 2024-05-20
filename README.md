@@ -33,7 +33,7 @@ ipconfig
 
 ## RaspberryPI Configuration
 - Follow the wiring diagram from the picture
-- 
+![wiring](https://github.com/Obradowski1389/tech_says_no/blob/master/documentation/2-pin-button.png)
 - Power on your PI
 - Enter the following command to copy the script and dependency requirements to the PI:
 ```
