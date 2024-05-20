@@ -50,7 +50,7 @@ class HomeScreen extends StatelessWidget {
                 const SizedBox(height: 40),
                 ElevatedButton(
                   onPressed: () {
-                    alert();
+                    alert(context);
                   },
                   child: const Text(
                     'Send SOS Alert',
@@ -68,16 +68,35 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  void alert() async {
-    await http.post(
-      Uri.parse('http://192.168.0.19:5000/alert'),
+  void alert(BuildContext context) async {
+    final response = await http.post(
+      Uri.parse('http://192.168.1.101:5000/alert'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode({
         'email':
             await SharedPreferencesService.instance.getString('email') ?? '',
+        'latitude': 45.25244253299,
+        'longitude': 19.85453623900,
+        "address": "Maksima Gorkog 57, Novi Sad, Serbia"
       }),
     );
+
+    if (response.statusCode == 200) {
+      // Show a snackbar
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Alert sent successfully!'),
+        ),
+      );
+    } else {
+      // Show a snackbar
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Failed to send alert!'),
+        ),
+      );
+    }
   }
 }

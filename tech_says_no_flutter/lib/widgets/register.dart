@@ -187,7 +187,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       });
       String token = await SharedPreferencesService.instance.getString('fcmToken') ?? '';
       final response = await http.post(
-        Uri.parse('http://192.168.0.19:5000/register'),
+        Uri.parse('http://192.168.1.101:5000/register'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },

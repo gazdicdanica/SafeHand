@@ -72,7 +72,7 @@ class ContactNotifier extends StateNotifier<List<Contact>> {
     String email =
         await SharedPreferencesService.instance.getString('email') ?? '';
     await http.post(
-      Uri.parse('http://192.168.0.19:5000/add_contact'),
+      Uri.parse('http://192.168.1.101:5000/add_contact'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

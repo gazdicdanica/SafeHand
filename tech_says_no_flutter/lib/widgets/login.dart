@@ -142,7 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
         emailError = null;
       });
       final response = await http.post(
-        Uri.parse('http://192.168.0.19:5000/login'),
+        Uri.parse('http://192.168.1.101:5000/login'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
