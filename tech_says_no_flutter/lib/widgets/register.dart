@@ -75,6 +75,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     const SizedBox(height: 20),
 
                     TextFormField(
+                      keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                         labelText: 'Email',
                         hintText: 'Enter your email',
@@ -191,7 +192,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         body: jsonEncode({
           'email': _email,
           'password': _password,
-          'full_name': _fullName,
+          'name': _fullName,
           'phone': _phoneNumber,
           'fcmToken': token
         }),

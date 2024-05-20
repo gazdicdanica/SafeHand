@@ -28,13 +28,11 @@ def get_user_tokens(user):
 @app.route('/alert', methods=['POST'])
 def send_notification():
     data = request.json
-    email = data.get('email')
-    user = db.users.find_one({'email': email})
+    user = db.users.find_one({'email': data['email']})
     if user is None:
-        return None
-    # latitude = data.get('latitude')
-    latitude = 45.2396
-    longitude = 19.8227
+        return jsonify({"message": "User not found"}), 404
+    latitude = data['latitude']
+    longitude = data['longitude']
     address = "Novi Sad, Serbia"
 
     # Retrieve user tokens from the database
@@ -51,7 +49,7 @@ def send_notification():
         },
         notification=messaging.Notification(
             title="Emergency Alert",
-            body=f"User {user['full_name']} is in an emergency at {address}"
+            body=f"User {user['name']} is in an emergency at {address}"
         ),
         tokens=tokens,
     )
@@ -98,11 +96,11 @@ def add_contact():
     for contact in user['contacts']:
         if contact['phone'] == data['contact_phone']:
             contact['name'] = data['contact_name']
-            db.users.update_one({'phone': data['phone']}, {'$set': {'contacts': user['contacts']}})
+            db.users.update_one({'email': data['email']}, {'$set': {'contacts': user['contacts']}})
             return jsonify({"message": "Contact updated successfully"}), 200
 
     new_contact = {'name': data['contact_name'], 'phone': data['contact_phone']}
-    db.users.update_one({'phone': data['phone']}, {'$push': {'contacts': new_contact}})
+    db.users.update_one({'email': data['email']}, {'$push': {'contacts': new_contact}})
     return jsonify({"message": "Contact added successfully"}), 200
 
 

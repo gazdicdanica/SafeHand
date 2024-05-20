@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:tech_says_no/shared_prefs.dart';
-import 'package:tech_says_no/widgets/add_contact.dart';
+import 'package:tech_says_no/widgets/bottom_nav.dart';
 import 'package:tech_says_no/widgets/register.dart';
 import 'package:http/http.dart' as http;
 
@@ -54,6 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           style: const TextStyle(color: Colors.red, fontSize: 16)),
                     const SizedBox(height: 20),
                     TextFormField(
+                      keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                         labelText: 'Email',
                         hintText: 'Enter your email',
@@ -156,7 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
         await SharedPreferencesService.instance.setString('email', _email);
         Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => const AddContact()),
+          MaterialPageRoute(builder: (context) => const BottomNav()),
           (route) => false,
         );
       } else if (response.statusCode == 401) {
