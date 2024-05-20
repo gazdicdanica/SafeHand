@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tech_says_no/shared_prefs.dart';
 import 'package:tech_says_no/widgets/add_contact.dart';
 import 'package:tech_says_no/widgets/home.dart';
-import 'package:tech_says_no/widgets/login.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key});
