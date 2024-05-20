@@ -51,6 +51,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       ),
                     ),
                     const SizedBox(height: 20),
+                    if (error != null)
+                      Text(error!,
+                          style:
+                              const TextStyle(color: Colors.red, fontSize: 16)),
+                    const SizedBox(height: 20),
                     TextFormField(
                       decoration: InputDecoration(
                         labelText: 'Full name',
@@ -69,11 +74,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         _fullName = value!;
                       },
                     ),
-                    if (error != null)
-                      Text(error!,
-                          style:
-                              const TextStyle(color: Colors.red, fontSize: 16)),
-                    const SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
                     TextFormField(
                       keyboardType: TextInputType.emailAddress,
@@ -186,7 +187,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       });
       String token = await SharedPreferencesService.instance.getString('fcmToken') ?? '';
       final response = await http.post(
-        Uri.parse('http://192.168.0.36:5000/register'),
+        Uri.parse('http://192.168.0.19:5000/register'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
