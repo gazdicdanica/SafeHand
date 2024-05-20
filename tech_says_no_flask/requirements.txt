@@ -1,4 +1,4 @@
 Flask==3.0.3
-flask_bcrypt==1.0.1
+flask-bcrypt==1.0.1
 pymongo==4.7.2
-firebase_admin==6.5.0
+firebase-admin==6.5.0

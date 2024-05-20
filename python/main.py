@@ -12,7 +12,6 @@ LONG_PRESS_DURATION = 1.0
 
 lat=45.25242532998973
 long=19.854536239005032
-id=1
 
 # Variables to track button press events
 prev_input_state = GPIO.input(GPIO_PIN)
@@ -22,7 +21,9 @@ last_press_time = 0
 
 def send_http_request():
     try:
-        response = requests.get('http://localhost:5000/api/')
+        response = requests.post('http://192.168.1.100:5000/alert', json={'email': 'isomidobradovic@gmail.com', 'latitude': lat, 'longitude': long})
+        str_text = "I%20need%20your%20help%21%20I%20am%20in%20danger%21%20Hurry%20please%2C%20here%20is%20my%20location%3Ahttps%3A%2F%2Fmaps.google.com%2F%3Fq%3D" + str(lat) + "%2C" + str(long)
+        requests.get("https://api.callmebot.com/whatsapp.php?phone=+381649144773&text=" + str_text + "&apikey=6164643")
         if response.status_code == 200:
             pass
         else:

@@ -98,11 +98,11 @@ def add_contact():
     for contact in user['contacts']:
         if contact['phone'] == data['contact_phone']:
             contact['name'] = data['contact_name']
-            db.users.update_one({'phone': data['phone']}, {'$set': {'contacts': user['contacts']}})
+            db.users.update_one({'email': data['email']}, {'$set': {'contacts': user['contacts']}})
             return jsonify({"message": "Contact updated successfully"}), 200
 
     new_contact = {'name': data['contact_name'], 'phone': data['contact_phone']}
-    db.users.update_one({'phone': data['phone']}, {'$push': {'contacts': new_contact}})
+    db.users.update_one({'email': data['email']}, {'$push': {'contacts': new_contact}})
     return jsonify({"message": "Contact added successfully"}), 200
 
 
