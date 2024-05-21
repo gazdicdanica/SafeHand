@@ -24,7 +24,7 @@ class _SupportState extends State<Support> {
       final String message = _controller.text;
       _controller.clear();
       final response = await http.post(
-        Uri.parse('http://192.168.1.100:5000/get_response'),
+        Uri.parse('http://192.168.1.101:5000/get_response'),
         headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

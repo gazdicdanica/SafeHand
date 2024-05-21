@@ -21,7 +21,7 @@ last_press_time = 0
 
 def send_http_request():
     try:
-        response = requests.post('http://192.168.1.100:5000/alert', json={'email': 'isomidobradovic@gmail.com', 'latitude': lat, 'longitude': long})
+        response = requests.post('http://192.168.1.101:5000/alert', json={'email': 'isomidobradovic@gmail.com', 'latitude': lat, 'longitude': long})
         str_text = "I%20need%20your%20help%21%20I%20am%20in%20danger%21%20Hurry%20please%2C%20here%20is%20my%20location%3Ahttps%3A%2F%2Fmaps.google.com%2F%3Fq%3D" + str(lat) + "%2C" + str(long)
         requests.get("https://api.callmebot.com/whatsapp.php?phone=+381649144773&text=" + str_text + "&apikey=6164643")
         if response.status_code == 200:
