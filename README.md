@@ -1,6 +1,8 @@
 # SafeHand
 SafeHand is application created for hackaton Tech says NO. It is designed to assist women who are victims of physicall or verbal abuse by allowing them to send an emergency alert to their loved ones. It is based around the concept of having a concealed physicall device that can be operated easily in time of need, by simply pressing a button 3 times in a row. When button gets pressed emergency contacts will get a whatsapp message, additionaly a push notification if they are users of our platform, that will lead them to victims location.
 
+<img src="https://github.com/gazdicdanica/SafeHand/blob/master/documentation/home.jpg" alt="app homepage" height="500"/>
+
 ## Prerequisites
 Before running this application, ensure you have the following installed:
 
@@ -8,17 +10,11 @@ Before running this application, ensure you have the following installed:
  - Docker
  - RaspberryPI and a button
  - CallMeBot (it requires number registration since we are in developing environment)
+ - Firebase project setup for FCM
 
-<img src="https://github.com/Obradowski1389/tech_says_no/blob/master/documentation/callmebot.jpg" alt="callmebot" height="500"/>
+<img src="https://github.com/gazdicdanica/SafeHand/blob/master/documentation/callmebot.jpg" alt="callmebot" height="500"/>
 
 ## Setup
-### Flutter Setup:
-- Clone this repository.
-- Navigate to the tech_says_no_flutter/ directory and run the following command to fetch the project dependencies:
-```
-flutter pub get
-```
-
 ### Docker Configuration:
 Docker configuration files are provided in the tech_says_no_flask/ directory.
 Build the Docker image using 
@@ -39,7 +35,7 @@ ipconfig
 
 ### RaspberryPI Configuration
 - Follow the wiring diagram from the picture
-![wiring](https://github.com/Obradowski1389/tech_says_no/blob/master/documentation/2-pin-button.png)
+![wiring](https://github.com/gazdicdanica/SafeHand/blob/master/documentation/2-pin-button.png)
 - Power on your PI
 - Enter the following command to copy the script and dependency requirements to the PI:
 ```
@@ -52,6 +48,25 @@ python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 sudo python main.py
+```
+
+### Flutter Setup:
+- Clone this repository.
+- Navigate to the tech_says_no_flutter/ directory and run the following command to fetch the project dependencies:
+```
+flutter pub get
+```
+
+### Google Maps Setup:
+- Obtain a Google maps API key
+- Follow further [instructions](https://codelabs.developers.google.com/codelabs/google-maps-in-flutter#3) for setup.
+
+
+### Firebase Admin SDK Setup
+- Download the service account JSON file from Firebase project settings and add it to tech_says_no_flask/ directory.
+- Update the path to JSON in tech_says_no_flask/app.py:
+```
+cred = credentials.Certificate("path/to/techsaysno-firebase-adminsdk-tnj21-d26f5188f5.json")
 ```
 
 ## Usage
